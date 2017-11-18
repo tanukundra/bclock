@@ -20,7 +20,6 @@ public class BerlinClockFixture {
     @Before
     public void beforeTest() {
     	berlinClock=new TimeConverterImpl();
-    	
     }
 
     @Test
@@ -38,6 +37,12 @@ public class BerlinClockFixture {
 
     @Then("the clock should look like $")
     public void thenTheClockShouldLookLike(String theExpectedBerlinClockOutput) {
-        assertThat(berlinClock.convertTime(theTime)).isEqualTo(theExpectedBerlinClockOutput);
+        
+    	String convertTime = berlinClock.convertTime(theTime);
+    	/*System.out.println("Program OUT# => STARTS||-"+convertTime+"||ENDSHERE");
+    	System.out.println(convertTime.length()+"\n");
+    	System.out.println("Expected OUT# => STARTS||-"+theExpectedBerlinClockOutput+"||ENDSHERE\n");
+    	System.out.println(theExpectedBerlinClockOutput.length()+"\n");*/
+		assertThat(convertTime).isEqualTo(theExpectedBerlinClockOutput);
     }
 }
