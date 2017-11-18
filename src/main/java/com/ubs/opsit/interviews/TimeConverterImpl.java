@@ -32,6 +32,9 @@ public class TimeConverterImpl implements TimeConverter {
 		int maxTime=24;
 		int upperOnLights=0;
 		int upperOffLights=0;
+		int lowerOnLights=0;
+		int lowerFixLights=4;
+		int lowerOffLights=0;
 		int upperFixLights = 4;
 		String onlight="Y";
 		String offLight="O";
@@ -39,22 +42,21 @@ public class TimeConverterImpl implements TimeConverter {
 		if(hours>0) {
 			upperOnLights= (hours/5);
 			upperOffLights=upperFixLights-upperOnLights;
-			
-		}
+			lowerOnLights=hours- hours/5;
+			lowerOffLights=lowerFixLights-lowerOnLights;
+					}
 		else {
-			 upperOnLights = maxTime/5;
-			 if((maxTime%5)>0) {
-				 upperOffLights=1;
-			 }
-			 lowerLights=(maxTime%5);
-		}
-		
-		
-		
-		for(int i=1; i<upperOnLights;i++) {
-			
+			 upperOffLights = maxTime/5;
+			 	lowerOffLights=maxTime- maxTime/5;
 			
 		}
+		String upperHours=getOnOffLights();
+	String lowerHours=getOnOffLights();	
+	
+		
+		
+		
+		
 		return null;
 		
 		
@@ -69,14 +71,18 @@ public class TimeConverterImpl implements TimeConverter {
 	
 	 
 	
-	public String getOnOffLights(String sign, int count) {
-		for(int i=0;i<count;i++) {
-			//sign=sign+
-			
+	public String getOnOffLights(int OffLights, int OnLights) {
+		String out="";
+		String OnSign="Y";
+		for(int i=0;i<OnLights;i++) {
+			out=out+OnSign;
 		}
-			
 		
-		return null;
+		for(int i=0;i<OffLights;i++) {
+			out=out+"R";
+		}
+		
+		return out;
 		
 	}
 	
