@@ -28,7 +28,7 @@ public class TimeConverterImpl implements TimeConverter {
 		
 	}
 	
-	public String getUpperHours(int hours) {
+	public String getUpperHours(int hours ,int minutes) {
 		int maxTime=24;
 		int upperOnLights=0;
 		int upperOffLights=0;
@@ -52,6 +52,16 @@ public class TimeConverterImpl implements TimeConverter {
 		}
 		String upperHours=getOnOffLights();
 	String lowerHours=getOnOffLights();	
+	
+	int minFixLamps=11;
+	
+	int minOnLights=minutes/5;
+	int minOffLights= 11- minutes/5;
+	
+	
+	
+	
+	
 	
 		
 		
@@ -79,7 +89,7 @@ public class TimeConverterImpl implements TimeConverter {
 		}
 		
 		for(int i=0;i<OffLights;i++) {
-			out=out+"R";
+			out=out+"O";
 		}
 		
 		return out;
