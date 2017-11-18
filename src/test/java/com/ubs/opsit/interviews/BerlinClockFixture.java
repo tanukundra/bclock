@@ -36,7 +36,7 @@ public class BerlinClockFixture {
     }
 
     @Then("the clock should look like $")
-    public void thenTheClockShouldLookLike(String theExpectedBerlinClockOutput) {
+    public void thenTheClockShouldLookLike(String theExpectedBerlinClockOutput) throws Exception{
         
     	String convertTime = berlinClock.convertTime(theTime);
     	/*System.out.println("Program OUT# => STARTS||-"+convertTime+"||ENDSHERE");

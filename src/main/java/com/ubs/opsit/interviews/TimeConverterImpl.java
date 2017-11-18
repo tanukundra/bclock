@@ -3,20 +3,41 @@ package com.ubs.opsit.interviews;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TimeConverterImpl implements TimeConverter {
+import com.ubs.opsit.interviews.exceptions.ApplicationException;
 
+public class TimeConverterImpl implements TimeConverter {
+	
+	
 	@Override
-	public String convertTime(String aTime) {
+	public String convertTime(String aTime) throws Exception {
 		String[] times=getTimeDetails(aTime);
 		// TODO Auto-generated method stub
 		int hours = Integer.parseInt(times[0]);
        int  minutes = Integer.parseInt(times[1]);
         int seconds = Integer.parseInt(times[2]);
+        if(aTime==null||aTime.isEmpty()) {
+        	throw new ApplicationException("nput time cannot be empty.please provide valid Input");
+        }
+        if(hours< 0 ||hours>24) {
+        	throw new ApplicationException("hours are not provided in acceptable range.");
+        }
+        if(minutes<0 || minutes>59) {
+        	throw new ApplicationException("minutes are not provided in acceptable range.");
+        }
+        if(seconds<0||seconds>59) {
+        	throw new ApplicationException("seconds are not provided in acceptable range.");
+        }
+        
 		return processTime(hours,minutes,seconds);
 	}
 
 	
-	public String[] getTimeDetails(String time) {
+	/**
+	 * This method splits given time into hours,minutes, seconds
+	 * @param time
+	 * @return
+	 */
+	private String[] getTimeDetails(String time) {
 		List<String> inputLs = new ArrayList<String>();
 		for (String a : time.split(":")) {
 			inputLs.add(a);
@@ -27,54 +48,62 @@ public class TimeConverterImpl implements TimeConverter {
 
 	}
 	
-	
-	public String processTime(int hours, int minutes, int seconds)
+	/**
+	 * This method collects the berlin representation of hours, minutes and seconds
+	 * @param hours
+	 * @param minutes
+	 * @param seconds
+	 * @return
+	 */
+	private String processTime(int hours, int minutes, int seconds)
 	{
-		String firstLine = "";
-		// String firstLine= (seconds %2 ==0) ? "Y" :"0";
+		String secondsRow = "";
 		if (seconds % 2 == 0) {
-			firstLine = "Y";
+			secondsRow = "Y";
 		} else {
-			firstLine = "O";
+			secondsRow = "O";
 		}
 
-		String nextLine = "";
-		nextLine = getHours(hours);
-		String result = firstLine + "\r\n" + nextLine+"\r\n"+getMinutes(minutes);
-		//System.out.println("result is:"+result);
+		String result =secondsRow +"\r\n"+ getHoursRow(hours)+"\r\n"+getMinutesRow(minutes);;
 		return result;
 
 	}
 	
-	public String getHours(int hours) {
+	/**
+	 * To get Berlin representation of given hours and returns first two rows conversion
+	 * @param hours
+	 * @return
+	 */
+	private String getHoursRow(int hours) {
 		int upperOnLights = 0;
-		int upperOffLights = 0;
+		int upperOffLights = 4;
 		int lowerOnLights = 0;
 		int lowerFixLights = 4;
-		int lowerOffLights = 0;
+		int lowerOffLights = 4;
 		int upperFixLights = 4;
 		if (hours > 0) {
 			upperOnLights = (hours / 5);
 			upperOffLights = upperFixLights - upperOnLights;
 			lowerOnLights = hours % 5;
 			lowerOffLights = lowerFixLights - lowerOnLights;
-		} else {
-			upperOffLights = 4;
-			lowerOffLights = 4;
-
-		}
+		} 
 		String upperHours = getOnOffLights(upperOnLights, upperOffLights,"R");
 		String lowerHours = getOnOffLights(lowerOnLights, lowerOffLights,"R");
 
 		String hoursLine = "";
 		hoursLine = upperHours + "\r\n" + lowerHours;
-		//System.out.println("hours line:"+hoursLine);
 		return hoursLine;
 
 	}
 	
 	
-	public String getMinutes(int minutes) {
+	
+	/**
+	 * This method returns the representation of two minutes rows in berlin clock 
+	 * @param minutes
+	 * @return
+	 */
+	private String getMinutesRow(int minutes) {
 		 int onLights= 0;
 		 int offlights=0;
 		 int lastOnLights=0;
@@ -96,22 +125,29 @@ public class TimeConverterImpl implements TimeConverter {
 				getOnOffLights(lastOnLights,lastOffLights,"Y");
 		
 		String minutesLine=thirdLine+"\r\n"+fourthLine;
-		//System.out.println("minutes line:" +minutesLine);
 		
 		return minutesLine;
 		
 		
 	}
 		
-	public String getOnOffLights(int OnLights, int OffLights,String onSign) {
+	/**
+	 * Utility method to create berlin representation of input
+	 * @param OnLights
+	 * @param OffLights
+	 * @param onSign
+	 * @return
+	 */
+	private String getOnOffLights(int OnLights, int OffLights,String onSign) {
 		String out = "";
+		String offSign="O";
 		
 		for (int i = 0; i < OnLights; i++) {
 			out = out + onSign;
 		}
 
 		for (int i = 0; i < OffLights; i++) {
-			out = out + "O";
+			out = out + offSign;
 		}
 		return out;
 	}
