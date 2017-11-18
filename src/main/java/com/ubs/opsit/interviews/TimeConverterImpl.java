@@ -55,6 +55,7 @@ public class TimeConverterImpl implements TimeConverter {
 			
 			
 		}
+		return null;
 		
 		
 		
@@ -66,17 +67,16 @@ public class TimeConverterImpl implements TimeConverter {
 	
 	
 	
-	
-	public 
+	 
 	
 	public String getOnOffLights(String sign, int count) {
 		for(int i=0;i<count;i++) {
-			sign=sign+
+			//sign=sign+
 			
 		}
 			
 		
-		
+		return null;
 		
 	}
 	
